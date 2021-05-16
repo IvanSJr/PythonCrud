@@ -61,14 +61,25 @@ def inserir():
         print(f'O produto {nome} foi inserido com sucesso.\nPreço: {preco}\nQuantidade: {estoque}')
     else:
         print(f'Não foi possivel inserir o produto {nome}')
-
+    desconectar(conn)
 
 def atualizar():
     """
     Função para atualizar um produto
     """
-    print('Atualizando produto...')
-
+    conn = conectar()
+    cursor = conn.cursor()
+    codigo = int(input('Digite o codigo do produto a ser atualizado'))
+    nome = input('Novo nome do produto: ')
+    preco = float(input('Novo preço do produto: '))
+    estoque = int(input('Nova quantidade em estoque'))
+    cursor.execute(f"UPDATE produtos SET nome='{nome}', preco={preco}, estoque={estoque} WHERE id={codigo}")
+    conn.commit()
+    if cursor.rowcount == 1:
+        print(f'Produto: {nome} foi atualizado')
+    else:
+        print(f'Erro ao atualizar o produto {nome}')
+    desconectar(conn)
 
 def deletar():
     """
