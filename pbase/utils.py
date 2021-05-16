@@ -1,16 +1,29 @@
+import MySQLdb
+from decouple import config
 
 
 def conectar():
     """
     Função para conectar ao servidor
     """
-    print('Conectando ao servidor...')
+    try:
+        connected = MySQLdb.connect(
+            db=config('db'),
+            host=config('host'),
+            user=config('user'),
+            passwd=config('passwd')
+        )
+        return connected
+    except MySQLdb.Error as e:
+        print(f'Erro na conexão: {e}')
 
-def desconectar():
+
+def desconectar(connected):
     """ 
     Função para desconectar do servidor.
     """
-    print('Desconectando do servidor...')
+    if connected:
+        connected.close()
 
 
 def listar():
@@ -19,11 +32,13 @@ def listar():
     """
     print('Listando produtos...')
 
+
 def inserir():
     """
     Função para inserir um produto
-    """  
+    """
     print('Inserindo produto...')
+
 
 def atualizar():
     """
@@ -31,11 +46,13 @@ def atualizar():
     """
     print('Atualizando produto...')
 
+
 def deletar():
     """
     Função para deletar um produto
-    """  
+    """
     print('Deletando produto...')
+
 
 def menu():
     """
