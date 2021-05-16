@@ -49,7 +49,18 @@ def inserir():
     """
     Função para inserir um produto
     """
-    print('Inserindo produto...')
+    conn = conectar()
+    cursor = conn.cursor()
+    nome = input('Informe o nome do produto: ')
+    preco = float(input('Informe o preço do produto: '))
+    estoque = int(input('Informe a quantidade em estoque: '))
+    cursor.execute(f"INSERT INTO produtos (nome, preco, estoque) VALUES ('{nome}',{preco},{estoque})")
+    conn.commit()
+
+    if cursor.rowcount == 1:
+        print(f'O produto {nome} foi inserido com sucesso.\nPreço: {preco}\nQuantidade: {estoque}')
+    else:
+        print(f'Não foi possivel inserir o produto {nome}')
 
 
 def atualizar():
