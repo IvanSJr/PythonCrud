@@ -81,11 +81,17 @@ def atualizar():
         print(f'Erro ao atualizar o produto {nome}')
     desconectar(conn)
 
+
 def deletar():
     """
     Função para deletar um produto
     """
-    print('Deletando produto...')
+    conn = conectar()
+    cursor = conn.cursor()
+    codigo = int(input('Digite o codigo do produto a ser deletado'))
+    cursor.execute(f'DELETE FROM produtos where id={codigo}')
+    conn.commit()
+    desconectar(conn)
 
 
 def menu():
